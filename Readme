@@ -1,0 +1,10 @@
+Hello and welcome to my creating data products submital.
+Please find the r code for the server and ui.
+The app is based around a conversation I had regarding process improvement.
+It surprised me that when a process had a small chance of failure even a relatively large improvement
+(say 20 % reduction in failure rate) was difficult to detect.
+
+Additionally the R mark down file for the presentation should be included.
+I'm not entirely happy with this file but have run out of time.
+I tried to insert images but once uploaded they did not work.
+I am unhappy with how the shiny widgets are rendered (last slide).
