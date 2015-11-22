@@ -1,10 +1,17 @@
+##Graphical representation of Ability to detect Process Change.
+##UI code
+##It was found necessary use tabs so that sufficient documentation for explaination could be included in this app.
+##Apologies for the long line of code but app seemed to get buggy if I broke up the lines.
 shinyUI(fluidPage(
         
         titlePanel("Graphical representation of Ability to detect Process Change."),
-                sidebarLayout(
+        ##Side pannel contains input widgets; these were inspired by the Shiny Gallery.        
+        sidebarLayout(
                 sidebarPanel(
+                        ##Numeric inputs for probability values were choosen as it was thought that these would not be varied as much.
                         numericInput('prob2', 'RED: Proposed probability of producing defective unit', 0.025, min = 0, max = 0.5, step = 0.002),
                         numericInput('prob1', 'BLUE: Existing probability of producing defective unit', 0.03, min = 0, max = 0.5, step = 0.002),
+                        
                         sliderInput('hours', 'Batch Size:', 
                                     min=0, max=10000, value=50, step=10),
                         sliderInput('failure', 'X Axis:', 
@@ -13,6 +20,7 @@ shinyUI(fluidPage(
                                     min = 0.5, max = 1, value = 0.95, step= 0.01)
                 ),
                 mainPanel(
+                        ##Main panel contains Tabs. The first shows the interactive graph, while the second has the app explaination.
                         tabsetPanel(
                                 tabPanel("Plot", plotOutput('newPlot')), 
                                 tabPanel("Help",

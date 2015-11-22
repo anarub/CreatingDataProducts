@@ -1,0 +1,87 @@
+
+
+Probability Visualiser
+========================================================
+author: Anaru.b
+date: 22 November 2015
+transition: rotate
+transition-speed: slow
+
+![alt text](E:/Users/ballie/Documents/R/Trial1/myimage.png)
+For Process Change
+
+Why use this App?
+========================================================
+
+
+This app assists with discussion around process change.
+It is designed to promote understanding of statistical concepts by allowing participants to interact with
+
+- Probabilities
+- Batch Size
+- Confidence intervals
+
+And visualise the effect on the probability distribution caused by these changes.
+
+[Really cool App](https://anarub.shinyapps.io/Trial1) 
+
+Traditional mathmatical methods for decision making can be a bit like Witchcraft.
+========================================================
+
+Below is an equation that provides a sample size needed to assess if p really is 0.025. It has error terms, confidence interval and even zstars, what ever they are.
+
+Who really understands this stuff?
+
+```{r, echo=TRUE}
+zstar=qnorm(.975);p=0.025;E=0.005
+output<-round(zstar^2 * p *(1 - p)/E^2,-2)
+```
+All the CEO sees, is that you want to have a trial, involving around `r output` units at $100 each.
+
+[This App will save your job!](https://anarub.shinyapps.io/Trial1) 
+
+
+And thats why you need a Graph!
+========================================================
+left: 50%
+```{r, echo=FALSE}
+probability<-function(pee,points){
+        prob<-0
+        for (i in 1:points+1){
+                if (i<2){
+                        prob[i]<-pbinom(i-1,hour,pee,lower.tail=TRUE)
+                }
+                else{
+                        prob[i]<-pbinom(i-1,hour,pee,lower.tail=TRUE)-pbinom(i-2,hour,pee,lower.tail=TRUE)
+                }
+        }
+        prob
+}
+#set duration of test
+hour<-500
+points<-30
+#Set probability of spike to compare
+prob1<-probability(0.025,points)
+prob2<-probability(0.05,points)
+#plots graph
+plot(0:points,prob1, col="red",main= paste("Expected frequency of spikes for an", hour, "hour simulation", sep=" ")
+     ,xlab="number of spikes occuring",ylab="Probability")
+points(0:points,prob2,col="blue")
+legend("topright",legend=c("prob1","prob2"),text.col=c("red","blue"))
+```
+***
+While this graph is pretty cool, we're taking it one step further!
+
+[But wait there's more!](https://anarub.shinyapps.io/Trial1) 
+
+We got Widgets!
+========================================================
+left: 50%
+The power of widgets is that they easily allow you to manuplate the parameters of your graph, there by improving understanding.
+
+The below link will take you to this fabulous product. Please send no money now.
+
+[Widgets this way!](https://anarub.shinyapps.io/Trial1) 
+***
+![alt text](E:/Users/ballie/Documents/R/Trial1/widgets.png)
+
