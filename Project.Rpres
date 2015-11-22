@@ -1,3 +1,10 @@
+---
+runtime: shiny
+output:html_document
+---
+```{r}
+library (shiny)
+```
 
 
 Probability Visualiser
@@ -7,8 +14,27 @@ date: 22 November 2015
 transition: rotate
 transition-speed: slow
 
-![alt text](E:/Users/ballie/Documents/R/Trial1/myimage.png)
-For Process Change
+```{r, echo=FALSE, out.width = '900px', out.height = '300px'}
+CI95<-function(prob,hours,CI) qbinom(c((1-CI)/2,(CI+(1-CI)/2)), hours, prob, lower.tail = TRUE)
+##The second is used to calculate probability distributions for the graphs.
+probf<-function(fail1,fail2,prob,hours) pbinom(c(fail1:fail2), hours, prob, lower.tail = TRUE)-pbinom(c((fail1-1):(fail2-1)), hours, prob, lower.tail = TRUE)
+
+#set parameters
+prob2<-0.025
+prob1<-0.03
+hours<-8000
+failure<-c(150,300)
+CI<-0.95
+                        plot(failure[1]:failure[2],probf(failure[1],failure[2],prob2,hours),col="red",
+                             ylab="Probability",xlab="Defects per Batch",
+                             main="Probability of Defect with Confidence Intervals")
+                        ##Adds Blue probability distribution.
+                        points(failure[1]:failure[2],probf(failure[1],failure[2],prob1,hours),col="blue")
+                        ##Adds confidence intervals
+                        abline(v=c((CI95(prob1,hours,CI))),col="blue",lwd=1)
+                        abline(v=c((CI95(prob2,hours,CI))),col="red",lwd=1)
+
+```
 
 Why use this App?
 ========================================================
@@ -36,7 +62,7 @@ Who really understands this stuff?
 zstar=qnorm(.975);p=0.025;E=0.005
 output<-round(zstar^2 * p *(1 - p)/E^2,-2)
 ```
-All the CEO sees, is that you want to have a trial, involving around `r output` units at $100 each.
+All the CEO sees is that you want to have a trial involving around `r output` units at $100 each.
 
 [This App will save your job!](https://anarub.shinyapps.io/Trial1) 
 
@@ -45,29 +71,21 @@ And thats why you need a Graph!
 ========================================================
 left: 50%
 ```{r, echo=FALSE}
-probability<-function(pee,points){
-        prob<-0
-        for (i in 1:points+1){
-                if (i<2){
-                        prob[i]<-pbinom(i-1,hour,pee,lower.tail=TRUE)
-                }
-                else{
-                        prob[i]<-pbinom(i-1,hour,pee,lower.tail=TRUE)-pbinom(i-2,hour,pee,lower.tail=TRUE)
-                }
-        }
-        prob
-}
-#set duration of test
-hour<-500
-points<-30
-#Set probability of spike to compare
-prob1<-probability(0.025,points)
-prob2<-probability(0.05,points)
-#plots graph
-plot(0:points,prob1, col="red",main= paste("Expected frequency of spikes for an", hour, "hour simulation", sep=" ")
-     ,xlab="number of spikes occuring",ylab="Probability")
-points(0:points,prob2,col="blue")
-legend("topright",legend=c("prob1","prob2"),text.col=c("red","blue"))
+
+#set parameters
+prob2<-0.25
+prob1<-0.3
+hours<-1400
+failure<-c(300,470)
+CI<-0.95
+                        plot(failure[1]:failure[2],probf(failure[1],failure[2],prob2,hours),col="red",
+                             ylab="Probability",xlab="Defects per Batch",
+                             main="Probability of Defect with Confidence Intervals")
+                        ##Adds Blue probability distribution.
+                        points(failure[1]:failure[2],probf(failure[1],failure[2],prob1,hours),col="blue")
+                        ##Adds confidence intervals
+                        abline(v=c((CI95(prob1,hours,CI))),col="blue",lwd=1)
+                        abline(v=c((CI95(prob2,hours,CI))),col="red",lwd=1)
 ```
 ***
 While this graph is pretty cool, we're taking it one step further!
@@ -83,5 +101,14 @@ The below link will take you to this fabulous product. Please send no money now.
 
 [Widgets this way!](https://anarub.shinyapps.io/Trial1) 
 ***
-![alt text](E:/Users/ballie/Documents/R/Trial1/widgets.png)
+And they're flasher than the widget below:
+
+```{r, echo=FALSE}
+inputPanel(
+        numericInput('prob2', 'RED: Proposed probability of         producing defective unit', 0.025, min = 0, max = 0.5, step = 0.002),
+        numericInput('prob1', 'BLUE: Existing probability of producing defective unit', 0.03, min = 0, max = 0.5, step = 0.002)
+        )
+```
+
+
 
